@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame,} from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as random from 'maath/random';
 import { gsap } from 'gsap';
-import { Vector3 } from 'three';
 
 function StarField() {
   const points = useRef<any>();
-  const { viewport } = useThree();
-  
+
   useFrame((state, delta) => {
     points.current.rotation.x -= delta / 15;
     points.current.rotation.y -= delta / 20;
@@ -16,7 +14,7 @@ function StarField() {
     points.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.05;
   });
 
-  const positions = random.inSphere(new Float32Array(5000 * 3), { radius: 3 });
+  const positions = new Float32Array(random.inSphere(new Float32Array(5000 * 3), { radius: 3 }));
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
@@ -41,7 +39,6 @@ function StarField() {
 
 function FloatingCubes() {
   const cubes = useRef<any[]>([]);
-  const { viewport } = useThree();
 
   useEffect(() => {
     cubes.current.forEach((cube, i) => {

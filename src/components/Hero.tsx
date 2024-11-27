@@ -19,13 +19,14 @@ const Hero = () => {
     const particleCount = 100;
 
     class Particle {
-      x: number;
-      y: number;
-      size: number;
-      speedX: number;
-      speedY: number;
+      x!: number;
+      y!: number;
+      size!: number;
+      speedX!: number;
+      speedY!: number;
 
       constructor() {
+        if (!canvas) return;
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 3;
@@ -34,6 +35,7 @@ const Hero = () => {
       }
 
       update() {
+        if (!canvas) return;
         this.x += this.speedX;
         this.y += this.speedY;
 
@@ -44,6 +46,8 @@ const Hero = () => {
       }
 
       draw() {
+        if (!canvas || !ctx) return;
+
         ctx.fillStyle = 'rgba(59, 130, 246, 0.5)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -58,6 +62,8 @@ const Hero = () => {
     }
 
     function animate() {
+      if (!canvas || !ctx) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       for (const particle of particles) {
@@ -82,6 +88,7 @@ const Hero = () => {
 
   return (
     <div className="continuous-section relative min-h-screen flex items-center justify-center">
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
